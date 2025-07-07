@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leafy - Klasifikasi Daun</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom right, #d1fae5, #ecfdf5);
+    }
+    .floating {
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body class="min-h-screen text-gray-800">
+  <!-- Navbar -->
+  <nav class="bg-green-700 py-4 px-8 shadow-md">
+    <div class="flex items-center space-x-3">
+      <div class="text-2xl">🌿</div>
+      <h1 class="text-white text-xl font-bold">Leafy - Klasifikasi Daun</h1>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container mx-auto px-6 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+
+      <!-- Gambar Daun dan Teks -->
+      <div class="text-center">
+        <img src="/static/love.png" alt="Gambar Daun" class="w-56 mx-auto rounded-lg floating transition-transform duration-500 hover:scale-105">
+        <h2 class="text-3xl font-semibold text-green-700 mt-6">Klasifikasi Daun</h2>
+        <h4 class="text-lg text-green-500 italic">Love Leaf!</h4>
+      </div>
+
+      <!-- Form Upload -->
+      <div class="bg-white bg-opacity-60 backdrop-blur-md p-8 rounded-xl shadow-2xl border border-green-100">
+        <form method="POST" enctype="multipart/form-data" class="space-y-6">
+          <input type="file" name="file" required class="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-green-100 file:text-green-700 hover:file:bg-green-200">
+          <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-transform duration-200 transform hover:scale-105">
+            🔍 Klasifikasi Sekarang
+          </button>
+        </form>
+
+        <a href="/history">
+          <button class="mt-4 w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-lg border transition-transform duration-200 transform hover:scale-105">
+            📜 Lihat Riwayat
+          </button>
+        </a>
+
+        {% if prediction %}
+        <div class="mt-6 text-left bg-green-50 p-4 rounded-lg shadow-inner">
+          <h2 class="text-lg font-semibold text-gray-800 mb-2">🔎 Hasil Prediksi</h2>
+          <p class="text-green-700">Jenis: <strong>{{ prediction }}</strong></p>
+          <p class="text-gray-600">Tingkat Keyakinan: <strong>{{ confidence }}%</strong></p>
+          <img src="{{ img_path }}" alt="Gambar Daun" class="mt-4 w-64 mx-auto rounded shadow-md transition-transform duration-300 hover:scale-105" />
+        </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </main>
+</body>
+</html>

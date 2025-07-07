@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Riwayat Klasifikasi - Leafy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom right, #d1fae5, #ecfdf5);
+    }
+  </style>
+</head>
+<body class="min-h-screen p-6 text-gray-800">
+
+  <!-- Container -->
+  <div class="max-w-6xl mx-auto bg-white/80 backdrop-blur-md p-6 rounded-xl shadow-xl border border-green-100">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-semibold text-green-700">📜 Riwayat Klasifikasi Daun</h2>
+      <form method="POST" action="/delete-history" onsubmit="return confirm('Yakin ingin menghapus semua riwayat?');">
+        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg shadow-md">
+          🗑️ Hapus Semua
+        </button>
+      </form>
+    </div>
+
+    <!-- Tabel -->
+    <div class="overflow-x-auto rounded-lg">
+      <table class="w-full text-sm text-center border border-gray-300 backdrop-blur-lg shadow-sm">
+        <thead class="bg-green-100 text-green-800 font-semibold">
+          <tr>
+            <th class="p-3 border">ID</th>
+            <th class="p-3 border">Gambar</th>
+            <th class="p-3 border">Prediksi</th>
+            <th class="p-3 border">Keyakinan</th>
+            <th class="p-3 border">Waktu</th>
+            <th class="p-3 border">Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in data %}
+          <tr class="hover:bg-green-50 transition">
+            <td class="border p-2">{{ row[0] }}</td>
+            <td class="border p-2">
+              <img src="{{ url_for('static', filename=row[1]) }}" alt="gambar daun" class="w-20 h-20 object-cover rounded shadow-md mx-auto" />
+            </td>
+            <td class="border p-2 font-semibold text-green-700">{{ row[2] }}</td>
+            <td class="border p-2 text-green-600">{{ row[3] }}%</td>
+            <td class="border p-2 text-gray-500">{{ row[4] }}</td>
+            <td class="border p-2">
+              <form method="POST" action="/delete/{{ row[0] }}" onsubmit="return confirm('Hapus data ini?');">
+                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded shadow">
+                  🗑️
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Link kembali -->
+    <div class="mt-6 text-right">
+      <a href="/" class="inline-block text-green-600 hover:underline hover:text-green-800 transition">
+        ← Kembali ke Halaman Utama
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>
