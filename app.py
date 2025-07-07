@@ -37,9 +37,9 @@ def index():
             conn = sqlite3.connect('database.db')
             cursor = conn.cursor()
             cursor.execute('''
-                INSERT INTO predictions (filename, result, confidence)
-                VALUES (?, ?, ?)
-            ''', (file.filename, prediction, confidence))
+            INSERT INTO predictions (filename, result, confidence)
+            VALUES (?, ?, ?)
+        ''', (file.filename, prediction, float(confidence)))
             conn.commit()
             conn.close()
 
@@ -48,14 +48,25 @@ def index():
 
     return render_template('index.html')
 
-@app.route('/history')
+@app.route("/history")
 def history():
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM predictions ORDER BY timestamp DESC")
     data = cursor.fetchall()
     conn.close()
-    return render_template('history.html', data=data)
+
+    # Konversi confidence (baris ke-4) dari bytes → string
+    clean_data = []
+    for row in data:
+        confidence = row[3]
+        if isinstance(confidence, bytes):
+            confidence = confidence.decode("utf-8", errors="ignore")
+        clean_row = (row[0], row[1], row[2], confidence, row[4])
+        clean_data.append(clean_row)
+
+    return render_template("history.html", data=clean_data)
+
 
 @app.route('/delete-history', methods=['POST'])
 def delete_history():
